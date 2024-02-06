@@ -1,0 +1,9 @@
+psycopg2
+pandas
+apache-airflow
+datetime
+requests
+pandasql
+urllib3
+traceback2
+apache-airflow
