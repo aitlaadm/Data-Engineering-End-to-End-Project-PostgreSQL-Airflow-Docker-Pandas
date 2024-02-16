@@ -39,7 +39,7 @@ def create_base_df(cur):
     col_names=[desc[0] for desc in cur.description]
         
     df=pd.DataFrame(rows,columns=col_names)
-    print(df)
+
     df.drop('rownumber', axis=1, inplace=True)
     #Array of 30 (size) generated random ints with max value of 10000
     index_to_be_null=np.random.randint(10000,size=30)
@@ -81,10 +81,30 @@ def create_exited_age_correlation(df):
     
     return df_exited_age_correlation
 
+def create_exited_salary_correlation(df):
+    df_salary=df[['geography','gender','exited','estimatedsalary']].groupby(['geography','gender']).agg({
+        'estimatedsalary':'mean',
+    }).sort_values('estimatedsalary')
+    
+    df_salary.reset_index(inplace=True)
+    
+    min_salary=round(df_salary['estimatedsalary'].min(),0)
+    
+    df["is_greater"]=df["estimatedsalary"].apply(lambda x: 1 if x>min_salary else 0)
+    
+    df_exited_salary_colleration=pd.DataFrame({
+        'exited': df['exited'],
+        'is_greater': df['is_greater'],
+        'correlation': np.where(df['exited']==(df['estimatedsalary']>df['estimatedsalary'].min()),1,0)
+    })
+    return df_exited_salary_colleration
+
 if __name__=='__main__':
     
     df=create_base_df(cur)
 
     create_creditscore_df(df)
     
-    print(create_exited_age_correlation(df))
+    create_exited_age_correlation(df)
+    
+    print(create_exited_salary_correlation(df))

@@ -62,7 +62,7 @@ def create_postgres_table():
         
         logging.info(' New table churn_modelling created successfully to postgres server')
     except:
-        logging.warning(' Check if the table churn_modelling exists')
+        logging.warning('Check if the table churn_modelling exists')
         
 def write_to_postgres():
     """
