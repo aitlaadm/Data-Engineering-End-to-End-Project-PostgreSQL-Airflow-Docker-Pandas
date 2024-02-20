@@ -69,6 +69,21 @@ def check_db():
     result = cur.fetchall()
     
     return result
+
+def write_df_to_postgres_main():
+    main_df = create_base_df(cur)
+    df_creditscore = create_creditscore_df(main_df)
+    df_exited_age_correlation = create_exited_age_correlation(main_df)
+    df_exited_salary_correlation = create_exited_salary_correlation(main_df)
+
+    create_tables_postgres()
+    insert_to_creditscore(df_creditscore)
+    insert_to_churn_modelling_age_correlation(df_exited_age_correlation)
+    insert_to_churn_modelling_salary_correlation(df_exited_salary_correlation)
+
+    conn.commit()
+    cur.close()
+    conn.close()
     
 if __name__=='__main__':
     

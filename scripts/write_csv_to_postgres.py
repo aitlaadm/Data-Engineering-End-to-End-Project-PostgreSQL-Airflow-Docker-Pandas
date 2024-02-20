@@ -83,7 +83,15 @@ def write_to_postgres():
             (int(row[0]), int(row[1]), str(row[2]), int(row[3]), str(row[4]), str(row[5]), int(row[6]), int(row[7]), float(row[8]), int(row[9]), int(row[10]), int(row[11]), float(row[12]), int(row[13])))
 
     logging.info(f' {inserted_row_count} rows from csv file inserted into churn_modelling table successfully')
-        
+
+def write_csv_to_postgres_main():
+    download_file_from_url(url, dest_folder)
+    create_postgres_table()
+    write_to_postgres()
+    conn.commit()
+    cur.close()
+    conn.close()
+    
 if __name__=='__main__':
     download_file_from_url(url,dest_folder)
     create_postgres_table()
